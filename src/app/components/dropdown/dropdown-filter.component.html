@@ -1,0 +1,67 @@
+<div class="dropdown" [class.open]="isDropdownOpen">
+  <input
+    *ngIf="!selectedOption; else selectedState"
+    #filterInput
+    type="text"
+    [(ngModel)]="filterText"
+    (input)="onFilterChange()"
+    (focus)="toggleDropdown()"
+    [placeholder]="placeholder"
+  />
+
+  <div *ngIf="!selectedOption; else clearIcon" class="icon-container">
+    <img
+      *ngIf="!isDropdownOpen"
+      class="dropdown-icon"
+      src="/assets/img/icons/chevron-down.svg"
+      alt="image"
+    />
+    <img
+      *ngIf="isDropdownOpen"
+      class="dropdown-icon"
+      src="/assets/img/icons/chevron-up.svg"
+      alt="image"
+    />
+  </div>
+
+  <div class="dropdown-list">
+    <div
+      *ngIf="
+        ((store.select('dropdown') | async)?.filteredOptions ?? []).length;
+        else noResults
+      "
+    >
+      <div
+        *ngFor="
+          let option of (store.select('dropdown') | async)?.filteredOptions ??
+            []
+        "
+        class="dropdown-list-item"
+        (click)="closeDropdown(option)"
+      >
+        {{ option }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noResults>
+  <div class="no-results">No results</div>
+</ng-template>
+
+<ng-template #selectedState>
+  <div class="selected-state" (click)="clearSelection()">
+    {{ selectedOption }}
+  </div>
+</ng-template>
+
+<ng-template #clearIcon>
+  <div class="icon-container">
+    <img
+      class="close-icon"
+      src="/assets/img/icons/close.svg"
+      alt="image"
+      (click)="clearSelection()"
+    />
+  </div>
+</ng-template>
