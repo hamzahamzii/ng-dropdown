@@ -82,3 +82,7 @@ input {
   font-style: italic;
   font-weight: 200;
 }
+
+.d-none {
+  display: none;
+}

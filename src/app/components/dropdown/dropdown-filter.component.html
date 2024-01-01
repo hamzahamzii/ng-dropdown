@@ -1,26 +1,25 @@
-<div class="dropdown" [class.open]="isDropdownOpen">
+<div class="dropdown" [class.open]="isDropdownOpen" (click)="toggleDropdown()">
   <input
     *ngIf="!selectedOption; else selectedState"
     #filterInput
     type="text"
     [(ngModel)]="filterText"
     (input)="onFilterChange()"
-    (focus)="toggleDropdown()"
     [placeholder]="placeholder"
   />
 
   <div *ngIf="!selectedOption; else clearIcon" class="icon-container">
     <img
-      *ngIf="!isDropdownOpen"
       class="dropdown-icon"
       src="/assets/img/icons/chevron-down.svg"
       alt="image"
+      [class.d-none]="isDropdownOpen"
     />
     <img
-      *ngIf="isDropdownOpen"
       class="dropdown-icon"
       src="/assets/img/icons/chevron-up.svg"
       alt="image"
+      [class.d-none]="!isDropdownOpen"
     />
   </div>
 
@@ -37,7 +36,7 @@
             []
         "
         class="dropdown-list-item"
-        (click)="closeDropdown(option)"
+        (click)="closeDropdown($event, option)"
       >
         {{ option }}
       </div>

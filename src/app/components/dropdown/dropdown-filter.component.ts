@@ -21,8 +21,9 @@ export class DropdownFilterComponent implements OnInit {
   @ViewChild('filterInput', { static: false }) public filterInput: ElementRef;
   @HostListener('document:click', ['$event'])
   clickout(event: MouseEvent) {
-    if (!this.eRef.nativeElement.contains(event.target))
-      this.isDropdownOpen = false;
+      if (!this.eRef.nativeElement.contains(event.target)) 
+        this.isDropdownOpen = false;
+ 
   }
 
   filterText = '';
@@ -42,10 +43,12 @@ export class DropdownFilterComponent implements OnInit {
   }
 
   toggleDropdown() {
+    if(!this.isDropdownOpen && this.filterInput) this.filterInput.nativeElement.focus()
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  closeDropdown(option: string = '') {
+  closeDropdown(event: any,option: string = '') {
+    event.stopPropagation();
     if (option) this.selectedOption = option;
     this.isDropdownOpen = false;
   }
